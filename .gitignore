@@ -1,0 +1,17 @@
+# Mac OS X .gitignore
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+# Thumbnails
+._*
+
+# SBT .gitignore
+target/
+lib_managed/
+src_managed/
+project/boot/
+
+# My .gitignore
+*.csv
+*.db
