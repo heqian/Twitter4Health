@@ -1,14 +1,54 @@
 package name.heqian.Twitter4Health
 import scala.slick.session.Database
 
-object Twitter4Health extends App {
-//	val fitnessScreenNames2012 = Array("Greatist", "dailyburn", "FitBottomedGirl", "TFerriss", "bornfitness", "ElephantJournal", "AthleticFoodie", "zentofitness", "RobbWolf", "trinkfitness", "martinberkhan", "JasonFerruggia", "erwan_le_corre", "johnromaniello", "stevekamb", "tomvenuto", "iRunnerBlog", "profspiker", "TaraStiles", "lululemon", "yogadork", "RunKeeper", "MeaghanBMurphy", "Kwidrick", "Gunnar", "takeachallenge", "omgal", "kellyolexa", "bandanatraining", "Joedowdellnyc", "Sarahstanley", "bobbystrom", "jon_ptdc", "michaelpollan", "Kris_Carr", "davezinczenko", "taraparkerpope", "HealthTap", "DrWeil", "CJNutrition", "ChoosingRaw", "bradpilon", "marionnestle", "bittman", "Mark_Sisson", "guygourmet", "BodyOdd", "DrOz", "KatherineHobson", "DrEades", "MassiveHealth", "cynthiasass", "DeepakChopra", "UncleRush", "Zeo", "GretchenRubin", "brainpicker", "zen_habits", "susancain")		
-//	twitterHelper.fetchFollowers(fitnessScreenNames2012)
-
-	val twitterDB = new TwitterDB(Database.forURL("jdbc:h2:file:twitter", driver = "org.h2.Driver"))
-	val healthDB = new HealthDB(Database.forURL("jdbc:h2:file:health", driver = "org.h2.Driver"))
-//	twitterAPI.fetchStream(twitterDB, Array[Long](), Array[String]("#nikeplus"))
-	val analyzer = new Analyzer
-	analyzer.preAnalyze(twitterDB)
-	analyzer.generateCSV
+object Twitter4Health {
+	def main(args: Array[String]) {
+		val twitterDB = new TwitterDB(Database.forURL("jdbc:h2:file:twitter", driver = "org.h2.Driver"))
+		val healthDB = new HealthDB(Database.forURL("jdbc:h2:file:health", driver = "org.h2.Driver"))
+		val cacheDB = new TwitterDB(Database.forURL("jdbc:h2:file:cache", driver = "org.h2.Driver"))
+	
+		if (args.size == 2) {
+			args(0) match {
+				case "monitor" => {
+					val twitterAPI = new TwitterAPI
+					twitterAPI.monitorStream(twitterDB, Array[Long](), Array[String]("#" + args(1)))
+				}
+				case "generate" => {
+					val analyzer = new Analyzer
+					args(1) match {
+						case "csv" => {
+							analyzer.preAnalyze(twitterDB)
+							analyzer.generateCSV
+						}
+						case "healthdb" => {
+							analyzer.preAnalyze(twitterDB)
+							analyzer.generateHealthDB(healthDB)
+						}
+						case _ => showCmdDescription
+					}
+				}
+				case "fetch" => {
+					val analyzer = new Analyzer
+					args(1) match {
+						case "between" => {
+							analyzer.preAnalyze(twitterDB)
+							analyzer.fetchTweetsBetween2Runnings(cacheDB)
+						}
+						case _ => showCmdDescription
+					}
+				}
+				case _ => showCmdDescription
+			}
+		} else {
+			showCmdDescription
+		}
+	}
+	
+	def showCmdDescription() = {
+		println("Usage:")
+		println("\tTwitter4Health")
+		println("\t\t\tmonitor [hashtag]")
+		println("\t\t\tgenerate [csv|healthdb]")
+		println("\t\t\tfetch [between] [number]")
+	}
 }

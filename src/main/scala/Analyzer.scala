@@ -13,7 +13,7 @@ class Analyzer {
 		// Get all
 		val statuses = twitterDB.getStatuses
 		println("Total Status:\t\t" + statuses.length)
-		val users = (for (user <- twitterDB.getUsers) yield (user._1 -> user._2)).toMap
+		val users = twitterDB.getUsers
 		println("Total User:\t\t" + users.size)
 			
 		var unresolvedCounter: Long = 0
@@ -21,6 +21,7 @@ class Analyzer {
 		var retweetCounter: Long = 0
 		var noDurationCounter: Long = 0
 		var noOffsetCounter: Long = 0
+		var noGeoCounter: Long = 0
 		var userCounter: Long = 0
 		var statusCounter: Long = 0
 			
@@ -32,6 +33,9 @@ class Analyzer {
 					if (comment.contains("RT") || comment.contains("\"@")) {
 						retweetCounter += 1
 					} else {
+						// Find the user info
+						val user = users(userId)
+						
 						// Distance
 						var distanceValue: Double = distance.replace(",", ".").replace(":", ".").toDouble
 						if (unit == "mi") {
@@ -52,7 +56,7 @@ class Analyzer {
 						}
 							
 						// Created Time
-						var offset = users(userId)
+						var offset: Long = user
 						var isLocalTime = true
 						if (offset == -1) {
 							isLocalTime = false
@@ -60,6 +64,8 @@ class Analyzer {
 						}
 						var calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 						calendar.setTimeInMillis(createdAt + offset * 1000)
+						
+						// Geo location
 						
 						// Add to dataset
 						if (data.contains(userId)) {
@@ -90,6 +96,7 @@ class Analyzer {
 			user.foreach { status => 
 				if (status._2 == 0) noDurationCounter += 1
 				if (status._4 == false) noOffsetCounter += 1
+				if (status._5 == "") noGeoCounter += 1
 			}
 		}
 		println("\tUnresolved Status:\t" + unresolvedCounter)
@@ -100,6 +107,7 @@ class Analyzer {
 		println("Status:\t\t\t" + statusCounter)
 		println("\tNo Duration Data:\t" + noDurationCounter)
 		println("\tNo UTC Offset Data:\t" + noOffsetCounter)
+		println("\tNo Geo Location Data:\t" + noGeoCounter)
 		println("")
 	}
 	
@@ -158,5 +166,9 @@ class Analyzer {
 			}
 		}
 		writer.close
+	}
+	
+	def fetchTweetsBetween2Runnings(cacheDB: TwitterDB) = {
+		
 	}
 }

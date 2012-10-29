@@ -44,7 +44,7 @@ class TwitterAPI {
 //		userSet.foreach(id => writer.write(id.toString + "\n"))
 	}
 	
-	def fetchStream(database: TwitterDB, follow: Array[Long], track: Array[String]) = {
+	def monitorStream(database: TwitterDB, follow: Array[Long], track: Array[String]) = {
 		//var userSet = mutable.Set.empty[Long]
 	
 		database.createTables

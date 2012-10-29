@@ -69,9 +69,9 @@ class TwitterDB(val database: Database) {
 		}
 	}
 	
-	def getUsers: List[(Long, Long)] = {
+	def getUsers: Map[Long, Long] = {
 		database.withSession {
-			(for (user <- Users) yield (user.id, user.utcOffset)).list
+			(for (user <- Users) yield user.id -> user.utcOffset).toMap
 		}
 	}
 	
