@@ -149,6 +149,7 @@ class TwitterAPI {
 		
 		while (hasNext) {
 			val statuses = twitter.getUserTimeline(userId, paging)
+			
 			// API limit reached
 			if (statuses.getRateLimitStatus.getRemainingHits == 0) {
 				val mins = statuses.getRateLimitStatus.getSecondsUntilReset / 60 + 1
@@ -156,7 +157,11 @@ class TwitterAPI {
 					println("\n******* API Limit Reset in: " + (mins - i) + " mins *******\n")
 					Thread.sleep(60000)	// 1 min
 				}
+			}
+			
 			// Still have API quota
+			if (statuses.size == 0) {
+				hasNext = false
 			} else {
 				var startIndex = 0
 				if (statuses.get(0).getId == toId) {	// Reached the "toId" statuses
@@ -192,7 +197,7 @@ class TwitterAPI {
 					} catch {
 						case e: Exception => println("Insert Status Exception: " + e)
 					}
-				}
+				} 
 			}
 		}
 	}
