@@ -170,7 +170,7 @@ class TwitterAPI {
 				
 				for (i <- startIndex until statuses.size) {
 					val status = statuses.get(i)
-					println("\t\tFetched (" + i + "/" + statuses.size + "): [" + status.getId + "] - " + status.getText)
+					println("\t\tFetched (" + (i + 1) + "/" + statuses.size + "): [" + status.getId + "] - " + status.getText)
 					
 					var geo = ""
 					if (status.getGeoLocation != null) geo = status.getGeoLocation.toString
