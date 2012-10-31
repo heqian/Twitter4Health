@@ -156,7 +156,7 @@ class TwitterAPI {
 			// Still have API quota
 			} else {
 				if (statuses.size == 200) {
-					paging.setPage(paging.getPage + 1)
+					paging.setSinceId(statuses.get(199).getId)
 				} else {
 					hasNext = false
 				}
