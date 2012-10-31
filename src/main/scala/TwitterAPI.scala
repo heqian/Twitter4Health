@@ -158,16 +158,20 @@ class TwitterAPI {
 				}
 			// Still have API quota
 			} else {
-				if (statuses.size == 200) {
-					paging.setSinceId(statuses.get(0).getId)
-				} else {
+				var startIndex = 0
+				if (statuses.get(0).getId == toId) {	// Reached the "toId" statuses
 					hasNext = false
+					startIndex = 1
+				} else {
+					paging.setSinceId(statuses.get(0).getId)	// Set the last status (Twitter return reverse order) as the "sinceId" status
+					hasNext = true
+					startIndex = 0
 				}
 				
-				for (i <- 1 until statuses.size) {	// Since the API returns will contain the "toId" status, the first status (reverse order) will be removed.
+				for (i <- startIndex until statuses.size) {
 					val status = statuses.get(i)
 					println("\t\tFetched (" + i + "/" + (statuses.size - 1) + "): [" + status.getId + "] - " + status.getText)
-				
+					
 					var geo = ""
 					if (status.getGeoLocation != null) geo = status.getGeoLocation.toString
 					try {
