@@ -4,10 +4,10 @@ import scala.slick.session.Database
 object Twitter4Health {
 	def main(args: Array[String]) {
 		val twitterDB = new TwitterDB(Database.forURL("jdbc:h2:file:twitter", driver = "org.h2.Driver"))
-		val healthDB = new HealthDB(Database.forURL("jdbc:h2:file:health", driver = "org.h2.Driver"))
 		val cacheDB = new TwitterDB(Database.forURL("jdbc:h2:file:cache", driver = "org.h2.Driver"))
+		val healthDB = new HealthDB(Database.forURL("jdbc:h2:file:health", driver = "org.h2.Driver"))
 	
-		if (args.size == 2) {
+		if (args.size > 2) {
 			args(0) match {
 				case "monitor" => {
 					val twitterAPI = new TwitterAPI
@@ -30,9 +30,11 @@ object Twitter4Health {
 				case "fetch" => {
 					val analyzer = new Analyzer
 					args(1) match {
-						case "between" => {
+						case "runner" => {
 							analyzer.preAnalyze(twitterDB)
-							analyzer.fetchTweetsBetween2Runnings(cacheDB)
+							var frequency = 2
+							if (args.size == 3) frequency = args(2).toInt
+							analyzer.fetchTweetsBetween2Runnings(cacheDB, frequency)
 						}
 						case _ => showCmdDescription
 					}
@@ -49,6 +51,6 @@ object Twitter4Health {
 		println("\tTwitter4Health")
 		println("\t\t\tmonitor [hashtag]")
 		println("\t\t\tgenerate [csv|healthdb]")
-		println("\t\t\tfetch [between] [number]")
+		println("\t\t\tfetch [runner] [frequency]")
 	}
 }

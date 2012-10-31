@@ -9,7 +9,7 @@ class Analyzer {
 	// Filter status & generate (userId -> List((distance, duration, utcTime, isLocalTime, geo, statusId, userId)))
 	val data = mutable.Map.empty[Long, mutable.ListBuffer[(Double, Int, Calendar, Boolean, String, Long, Long)]]
 	
-	def preAnalyze(twitterDB: TwitterDB) = {
+	def preAnalyze(twitterDB: TwitterDB): Unit = {
 		// Get all
 		val statuses = twitterDB.getStatuses
 		println("Total Status:\t\t" + statuses.length)
@@ -111,7 +111,7 @@ class Analyzer {
 		println("")
 	}
 	
-	def generateHealthDB(healthDB: HealthDB) = {
+	def generateHealthDB(healthDB: HealthDB): Unit = {
 		healthDB.createTables
 		healthDB.database.withSession {
 			data.values.foreach { value =>
@@ -122,7 +122,7 @@ class Analyzer {
 		}
 	}
 
-	def generateCSV() = {
+	def generateCSV(): Unit = {
 		// Generate .csv
 		var writer = new FileWriter("user.csv", false)
 		writer.write("frequency, distance (km), duration (min), interval (day)\n")
@@ -168,7 +168,31 @@ class Analyzer {
 		writer.close
 	}
 	
-	def fetchTweetsBetween2Runnings(cacheDB: TwitterDB) = {
+	def fetchTweetsBetween2Runnings(cacheDB: TwitterDB, frequency: Int) = {
+		cacheDB.createTables
 		
+		val twitterAPI = new TwitterAPI
+		var counter: Long = 0
+		var total: Long = 0
+		
+		// Pre-analyze the size of data
+		data.values.foreach { runner =>
+			if (runner.size >= frequency) {
+				total += 1
+			}
+		}
+		
+		data.values.foreach { runner =>
+			if (runner.size >= frequency) {
+				println("Fetching for user: " + runner(0)._7)
+				for (i <- 1 until runner.size) {
+					var sinceId = runner(i - 1)._6
+					var toId = runner(i)._6
+					twitterAPI.fetchUserTimeline(cacheDB, runner(0)._7, sinceId, toId)
+				}
+				counter += 1
+				println("Completed [" + counter + "/" + total + "]: " + counter.toFloat / total.toFloat * 100.0 + "%\n")
+			}
+		}
 	}
 }

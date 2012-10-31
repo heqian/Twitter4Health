@@ -16,7 +16,7 @@ class HealthDB(val database: Database) {
 		def * = statusId ~ userId ~ distance ~ duration ~ createdAt ~ isLocalTime ~ location
 	}
 	
-	def createTables = {
+	def createTables: Unit = {
 		database.withSession {
 			// RUNNINGS table
 			try {
@@ -28,7 +28,7 @@ class HealthDB(val database: Database) {
 		}
 	}
 	
-	def insertRunning(statusId: Long, userId: Long, distance: Double, duration: Int, createdAt: Long, isLocalTime: Boolean, location: String) = {
+	def insertRunning(statusId: Long, userId: Long, distance: Double, duration: Int, createdAt: Long, isLocalTime: Boolean, location: String): Unit = {
 		database.withSession {
 			Runnings.insert(statusId, userId, distance, duration, createdAt, isLocalTime, location)
 		}

@@ -21,7 +21,7 @@ class TwitterAPI {
 	private val stream = new TwitterStreamFactory(configuration).getInstance
 //	private val writer = new FileWriter("users.txt", true)
 	
-	def fetchFollowers(screenNames: Array[String]) = {
+	def fetchFollowers(screenNames: Array[String]): Unit = {
 		var userSet = mutable.Set.empty[Long]
 		for (screenName <- screenNames) {
 			var cursor: Long = -1
@@ -44,7 +44,7 @@ class TwitterAPI {
 //		userSet.foreach(id => writer.write(id.toString + "\n"))
 	}
 	
-	def monitorStream(database: TwitterDB, follow: Array[Long], track: Array[String]) = {
+	def monitorStream(database: TwitterDB, follow: Array[Long], track: Array[String]): Unit = {
 		//var userSet = mutable.Set.empty[Long]
 	
 		database.createTables
@@ -83,8 +83,7 @@ class TwitterAPI {
 						user.getLang
 					)
 				} catch {
-					case _:
-						Exception => println("Insert User Exception.")
+					case e: Exception => println("Insert User Exception: " + e)
 				}
 				
 				var geo = ""
@@ -105,8 +104,7 @@ class TwitterAPI {
 						status.getUser.getId
 					)
 				} catch {
-					case _:
-						Exception => println("Insert Status Exception.")
+					case e: Exception => println("Insert Status Exception: " + e)
 				}
 				
 				println("@" + status.getUser.getScreenName + " - " + status.getText)
@@ -130,5 +128,65 @@ class TwitterAPI {
 		
 		stream.addListener(listener)
 		stream.filter(new FilterQuery(0, follow, track))
+	}
+	
+	def fetchUserTimeline(database: TwitterDB, userId: Long, sinceId: Long, toId: Long): Unit = {
+		val paging = new Paging(1, 200, sinceId, toId)
+		var hasNext = true
+		
+		// Check if the statuses is already in database
+		if (database.existStatusForUserBetween(userId, sinceId, toId)) {
+			println("\tAlready cached statuses for user - [" + userId + "] between [" + sinceId +"] <-> [" + toId + "]")
+			return
+		} else {
+			println("\tFeteching statuses for user - [" + userId + "] between [" + sinceId +"] <-> [" + toId + "]")
+		}
+		
+		// Check if the user is already in database
+		if (! database.existUser(userId)) {
+			database.insertUser(userId, "", "", "", "", "", false, 0, 0, 0, 0, 0, 0, 0, "", false, false, "")
+		}
+		
+		while (hasNext) {
+			val statuses = twitter.getUserTimeline(userId, paging)
+			// API limit reached
+			if (statuses.getRateLimitStatus.getRemainingHits == 0) {
+				println("\n******* API Limit Reset in: " + statuses.getRateLimitStatus.getSecondsUntilReset / 60 + " mins *******\n")
+				Thread.sleep((statuses.getRateLimitStatus.getSecondsUntilReset + 10) * 1000)
+			// Still have API quota
+			} else {
+				if (statuses.size == 200) {
+					paging.setPage(paging.getPage + 1)
+				} else {
+					hasNext = false
+				}
+				
+				for (i <- 1 until statuses.size) {	// Since the API returns will contain the "toId" status, the first status (reverse order) will be removed.
+					val status = statuses.get(i)
+					println("\t\tFetched (" + i + "/" + (statuses.size - 1) + "): [" + status.getId + "] - " + status.getText)
+				
+					var geo = ""
+					if (status.getGeoLocation != null) geo = status.getGeoLocation.toString
+					try {
+						database.insertStatus(
+							status.getId,
+							status.getCreatedAt.getTime,
+							status.getText,
+							status.getSource,
+							status.isTruncated,
+							status.getInReplyToStatusId,
+							status.getInReplyToUserId,
+							geo,
+							status.getRetweetCount,
+							status.isFavorited,
+							status.isRetweet,
+							status.getUser.getId
+						)
+					} catch {
+						case e: Exception => println("Insert Status Exception: " + e)
+					}
+				}
+			}
+		}
 	}
 }

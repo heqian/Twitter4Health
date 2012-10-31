@@ -45,7 +45,7 @@ class TwitterDB(val database: Database) {
 		def * = id ~ createdAt ~ text ~ source ~ isTruncated ~ inReplyToStatusId ~ inReplyToUserId ~ geo ~ retweetCount ~ isFavorited ~ isRetweeted ~ userId
 	}
 	
-	def createTables = {
+	def createTables: Unit = {
 		database.withSession {
 			// USERS & STATUSES table
 			try {
@@ -57,13 +57,13 @@ class TwitterDB(val database: Database) {
 		}
 	}
 	
-	def insertUser(id: Long, name: String, screenName: String, location: String, url: String, description: String, isProtected: Boolean, followersCount: Long, friendsCount: Long, listedCount: Long, favouritesCount: Long, statusesCount: Long, createdAt: Long, utcOffset: Long, timeZone: String, isGeoEnabled: Boolean, isVerified: Boolean, language: String) = {
+	def insertUser(id: Long, name: String, screenName: String, location: String, url: String, description: String, isProtected: Boolean, followersCount: Long, friendsCount: Long, listedCount: Long, favouritesCount: Long, statusesCount: Long, createdAt: Long, utcOffset: Long, timeZone: String, isGeoEnabled: Boolean, isVerified: Boolean, language: String): Unit = {
 		database.withSession {
 			Users.insert(id, name, screenName, location, url, description, isProtected, followersCount, friendsCount, listedCount, favouritesCount, statusesCount, createdAt, utcOffset, timeZone, isGeoEnabled, isVerified, language)
 		}
 	}
 	
-	def insertStatus(id: Long, createdAt: Long, text: String, source: String, isTruncated: Boolean, inReplyToStatusId: Long, inReplyToUserId: Long, geo: String, retweetCount: Long, isFavorited: Boolean, isRetweeted: Boolean, userId: Long) = {
+	def insertStatus(id: Long, createdAt: Long, text: String, source: String, isTruncated: Boolean, inReplyToStatusId: Long, inReplyToUserId: Long, geo: String, retweetCount: Long, isFavorited: Boolean, isRetweeted: Boolean, userId: Long): Unit = {
 		database.withSession {
 			Statuses.insert(id, createdAt, text, source, isTruncated, inReplyToStatusId, inReplyToUserId, geo, retweetCount, isFavorited, isRetweeted, userId)
 		}
@@ -77,7 +77,23 @@ class TwitterDB(val database: Database) {
 	
 	def getStatuses: List[(Long, Long, String, Long, String)] = {
 		database.withSession {
-			(for (status <- Statuses) yield (status.id, status.userId, status.text, status.createdAt, status.geo)).list
+			(for (status <- Statuses.sortBy(_.id)) yield (status.id, status.userId, status.text, status.createdAt, status.geo)).list
+		}
+	}
+	
+	def existUser(id: Long): Boolean = {
+		database.withSession {
+			val users = (for (user <- Users if user.id === id) yield user.id).list
+			if (users.size == 0) false
+			else true
+		}
+	}
+	
+	def existStatusForUserBetween(userId: Long, sinceId: Long, toId: Long): Boolean = {
+		database.withSession {
+			val statuses = (for (status <- Statuses if status.userId === userId && status.id > sinceId && status.id < toId) yield status.id).list
+			if (statuses.size == 0) false
+			else true
 		}
 	}
 }
