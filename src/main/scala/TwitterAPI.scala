@@ -151,12 +151,15 @@ class TwitterAPI {
 			val statuses = twitter.getUserTimeline(userId, paging)
 			// API limit reached
 			if (statuses.getRateLimitStatus.getRemainingHits == 0) {
-				println("\n******* API Limit Reset in: " + statuses.getRateLimitStatus.getSecondsUntilReset / 60 + " mins *******\n")
-				Thread.sleep((statuses.getRateLimitStatus.getSecondsUntilReset + 10) * 1000)
+				val mins = statuses.getRateLimitStatus.getSecondsUntilReset / 60 + 1
+				for (i <- 0 until mins) {
+					println("\n******* API Limit Reset in: " + (mins - i) + " mins *******\n")
+					Thread.sleep(60000)	// 1 min
+				}
 			// Still have API quota
 			} else {
 				if (statuses.size == 200) {
-					paging.setSinceId(statuses.get(199).getId)
+					paging.setSinceId(statuses.get(0).getId)
 				} else {
 					hasNext = false
 				}
