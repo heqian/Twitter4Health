@@ -148,53 +148,71 @@ class TwitterAPI {
 		}
 		
 		while (hasNext) {
-			val statuses = twitter.getUserTimeline(userId, paging)
-			
-			// API limit reached
-			if (statuses.getRateLimitStatus.getRemainingHits == 0) {
-				val mins = statuses.getRateLimitStatus.getSecondsUntilReset / 60 + 1
-				for (i <- 0 until mins) {
-					println("\n******* API Limit Reset in: " + (mins - i) + " mins *******\n")
-					Thread.sleep(60000)	// 1 min
+			try {
+				val statuses = twitter.getUserTimeline(userId, paging)
+				
+				// API limit reached
+				if (statuses.getRateLimitStatus.getRemainingHits == 0) {
+					val mins = statuses.getRateLimitStatus.getSecondsUntilReset / 60 + 1
+					for (i <- 0 until mins) {
+						println("\n******* API Limit Reset in: " + (mins - i) + " mins *******\n")
+						Thread.sleep(60000)	// 1 min
+					}
 				}
-			}
 			
-			// Still have API quota
-			if (statuses.size == 0) {
-				hasNext = false
-			} else {
-				if (statuses.size < 200) {
+				// Still have API quota
+				if (statuses.size == 0) {
 					hasNext = false
 				} else {
-					paging.setMaxId(statuses.get(199).getId - 1)	// Set the first status (Twitter return reverse order) as the "maxId" status
-					hasNext = true
-				}
-				
-				for (i <- 0 until statuses.size) {
-					val status = statuses.get(i)
-					println("\t\tFetched (" + (i + 1) + "/" + statuses.size + "): [" + status.getId + "] - " + status.getText)
-					
-					var geo = ""
-					if (status.getGeoLocation != null) geo = status.getGeoLocation.toString
-					try {
-						database.insertStatus(
-							status.getId,
-							status.getCreatedAt.getTime,
-							status.getText,
-							status.getSource,
-							status.isTruncated,
-							status.getInReplyToStatusId,
-							status.getInReplyToUserId,
-							geo,
-							status.getRetweetCount,
-							status.isFavorited,
-							status.isRetweet,
-							status.getUser.getId
-						)
-					} catch {
-						case e: Exception => println("Insert Status Exception: " + e)
+					if (statuses.size < 200) {
+						hasNext = false
+					} else {
+						paging.setMaxId(statuses.get(199).getId - 1)	// Set the first status (Twitter return reverse order) as the "maxId" status
+						hasNext = true
 					}
-				} 
+				
+					for (i <- 0 until statuses.size) {
+						val status = statuses.get(i)
+						println("\t\tFetched (" + (i + 1) + "/" + statuses.size + "): [" + status.getId + "] - " + status.getText)
+					
+						var geo = ""
+						if (status.getGeoLocation != null) geo = status.getGeoLocation.toString
+						try {
+							database.insertStatus(
+								status.getId,
+								status.getCreatedAt.getTime,
+								status.getText,
+								status.getSource,
+								status.isTruncated,
+								status.getInReplyToStatusId,
+								status.getInReplyToUserId,
+								geo,
+								status.getRetweetCount,
+								status.isFavorited,
+								status.isRetweet,
+								status.getUser.getId
+							)
+						} catch {
+							case e: Exception => println("Insert Status Exception: " + e)
+						}
+					} 
+				}
+			} catch {
+				case e: TwitterException => {
+					println("Fetch User Timeline Exception: " + e)
+					var mins = 0
+					if (e.getRateLimitStatus.getRemainingHits == 0) {
+						mins = e.getRateLimitStatus.getSecondsUntilReset / 60 + 1
+					} else {
+						mins = e.getRetryAfter / 60 + 1
+					}
+					
+					for (i <- 0 until mins) {
+						println("\n******* Retry for this exception in: " + (mins - i) + " mins *******\n")
+						Thread.sleep(60000)	// 1 min
+					}
+					
+				}
 			}
 		}
 	}
