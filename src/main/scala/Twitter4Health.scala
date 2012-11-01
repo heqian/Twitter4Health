@@ -7,7 +7,7 @@ object Twitter4Health {
 		val cacheDB = new TwitterDB(Database.forURL("jdbc:h2:file:cache", driver = "org.h2.Driver"))
 		val healthDB = new HealthDB(Database.forURL("jdbc:h2:file:health", driver = "org.h2.Driver"))
 	
-		if (args.size > 2) {
+		if (args.size >= 2) {
 			args(0) match {
 				case "monitor" => {
 					val twitterAPI = new TwitterAPI
@@ -38,6 +38,10 @@ object Twitter4Health {
 						}
 						case _ => showCmdDescription
 					}
+				}
+				case "thesaurus" => {
+					val thesaurus = new MerriamWebsterAPI
+					thesaurus.closure(args(1), 2)
 				}
 				case _ => showCmdDescription
 			}
