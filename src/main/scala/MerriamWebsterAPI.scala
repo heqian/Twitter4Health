@@ -103,7 +103,7 @@ class MerriamWebsterAPI {
 				lastWordForCurrentLevel = waitingList.last
 				
 				// Print the result of this level
-				println("Level " + digLevel - level + ": " + waitingList.size)
+				println("Level " + (digLevel - level) + ": " + waitingList.size)
 				println("\t" + waitingList)
 			}
 		}

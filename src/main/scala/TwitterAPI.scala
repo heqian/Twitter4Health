@@ -131,7 +131,7 @@ class TwitterAPI {
 	}
 	
 	def fetchUserTimeline(database: TwitterDB, userId: Long, sinceId: Long, toId: Long): Unit = {
-		val paging = new Paging(1, 200, sinceId, toId)
+		val paging = new Paging(1, 200, sinceId, toId - 1)	// As to exclude the "maxId" tweet
 		var hasNext = true
 		
 		// Check if the statuses is already in database
@@ -163,17 +163,14 @@ class TwitterAPI {
 			if (statuses.size == 0) {
 				hasNext = false
 			} else {
-				var startIndex = 0
-				if (statuses.get(0).getId == toId) {	// Reached the "toId" statuses
+				if (statuses.size < 200) {
 					hasNext = false
-					startIndex = 1
 				} else {
-					paging.setSinceId(statuses.get(0).getId)	// Set the last status (Twitter return reverse order) as the "sinceId" status
+					paging.setMaxId(statuses.get(199).getId - 1)	// Set the first status (Twitter return reverse order) as the "maxId" status
 					hasNext = true
-					startIndex = 0
 				}
 				
-				for (i <- startIndex until statuses.size) {
+				for (i <- 0 until statuses.size) {
 					val status = statuses.get(i)
 					println("\t\tFetched (" + (i + 1) + "/" + statuses.size + "): [" + status.getId + "] - " + status.getText)
 					
