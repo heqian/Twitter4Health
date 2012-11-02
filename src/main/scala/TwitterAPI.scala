@@ -201,17 +201,22 @@ class TwitterAPI {
 				case e: TwitterException => {
 					println("Fetch User Timeline Exception: " + e)
 					var mins = 0
+					
 					if (e.getRateLimitStatus.getRemainingHits == 0) {
 						mins = e.getRateLimitStatus.getSecondsUntilReset / 60 + 1
 					} else {
-						mins = e.getRetryAfter / 60 + 1
+						if (e.getRetryAfter == -1) {
+							println("User's tweets are protected.")
+							hasNext = false
+						} else {
+							mins = e.getRetryAfter / 60 + 1
+						}
 					}
 					
 					for (i <- 0 until mins) {
 						println("\n******* Retry for this exception in: " + (mins - i) + " mins *******\n")
 						Thread.sleep(60000)	// 1 min
 					}
-					
 				}
 			}
 		}
