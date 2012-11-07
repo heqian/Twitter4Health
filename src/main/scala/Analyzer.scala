@@ -45,7 +45,7 @@ class Analyzer {
 						// Duration
 						var durationValue: Int = 0
 						if (duration != null) {
-							durationValue = duration.replace(":", "").replace("'", "").replace("\"", "").toInt
+							durationValue = duration.replace(":", "").replace("'", "").replace("\"", "").replace(".", "").toInt
 							durationValue = durationValue / 10000 * 3600 + durationValue / 100 % 100 * 60 + durationValue % 100
 							// println(time + " == " + durationValue)
 						} else if (pace != null) {
@@ -123,47 +123,40 @@ class Analyzer {
 	}
 
 	def generateCSV(): Unit = {
-		// Generate .csv
-		var writer = new FileWriter("user.csv", false)
-		writer.write("frequency, distance (km), duration (min), interval (day)\n")
+		// Generate status.csv
+		var writer = new FileWriter("status.csv", false)
+		writer.write("distance (km), duration (min), pace (km/h), dayOfWeek, hourOfDay, daySinceLastRunning (day)\n")
 		data.values.foreach {value =>
-			var distance: Double = 0
-			var duration: Int = 0
-			value.foreach {status => 
-				distance += status._1
-				duration += status._2
-			}
-			var interval: Double = 0
-			if (value.size > 1) {
-				var intervalCounter = 0
-				for (i <- 1 until value.size) {
-					intervalCounter += 1
-					interval += value(i)._3.getTimeInMillis - value(i - 1)._3.getTimeInMillis
-				}
-				if (intervalCounter > 1) {
-					interval /= intervalCounter
-				}
-			}
-			writer.write(value.size + ", " + distance / value.size + ", " + duration / 60.0 / value.size + ", " + interval / 1000 / 3600 / 24 + "\n")
-		}
-		writer.close
-			
-		writer = new FileWriter("status.csv", false)
-		writer.write("distance (km), duration (min), pace (km/h), dayOfWeek, hourOfDay\n")
-		data.values.foreach {value =>
-			value.foreach {status =>
-				val distance = status._1
-				val duration = status._2
-				var pace: Double = 0
-				var dayOfWeek = -1
-				var hourOfDay = -1
+			for (i <- 0 until value.size) {
+				val status = value(i)
+				val distance: Double = status._1		// km
+				val duration: Double = status._2 / 60.0	// min
+				var pace: Double = -1					// km/h
+				var dayOfWeek: Int = -1
+				var hourOfDay: Int = -1
+				var daySinceLastRunning: Double = -1
+				
+				if (duration != 0) pace = distance / duration * 60.0
 				if (status._4) {
 					dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
 					hourOfDay = status._3.get(Calendar.HOUR_OF_DAY)
 				}
-				if (duration != 0) pace = distance / duration * 1000 * 3.6
-				writer.write(distance + ", " + duration / 60.0 + ", " + pace + ", " + dayOfWeek + ", " + hourOfDay + ", " + "\n")
+				if (i != 0) daySinceLastRunning = (value(i)._3.getTimeInMillis - value(i - 1)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
+				
+				writer.write(distance + ", " + duration + ", " + pace + ", " + dayOfWeek + ", " + hourOfDay + ", " + daySinceLastRunning + ",\n")
 			}
+		}
+		writer.close
+		
+		// Generate user.csv
+		writer = new FileWriter("user.csv", false)
+		writer.write("times, frequency (times/week)\n")
+		data.values.foreach {value =>
+			var frequency: Double = -1
+			if (value.size > 1) {
+				frequency = (value.size - 1) / ((value(value.size - 1)._3.getTimeInMillis - value(0)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0 / 7.0)
+			}
+			writer.write(value.size + ", " + frequency + ",\n")
 		}
 		writer.close
 	}
