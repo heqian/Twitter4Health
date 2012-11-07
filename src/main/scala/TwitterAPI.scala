@@ -202,12 +202,12 @@ class TwitterAPI {
 					println("Fetch User Timeline Exception: " + e)
 					var mins = 0
 					
-					if (e.getRateLimitStatus.getRemainingHits == 0) {
-						mins = e.getRateLimitStatus.getSecondsUntilReset / 60 + 1
+					if (e.getRetryAfter == -1) {
+						println("User's tweets are protected.")
+						hasNext = false
 					} else {
-						if (e.getRetryAfter == -1) {
-							println("User's tweets are protected.")
-							hasNext = false
+						if (e.getRateLimitStatus.getRemainingHits == 0) {
+							mins = e.getRateLimitStatus.getSecondsUntilReset / 60 + 1
 						} else {
 							mins = e.getRetryAfter / 60 + 1
 						}
