@@ -129,7 +129,7 @@ class Analyzer {
 		fileType match {
 			case "csv" => {
 				writer = new FileWriter("running.csv", false)
-				writer.write("distance (km), duration (min), pace (km/h), dayOfWeek, hourOfDay, sinceLastRunning (day)\n")
+				writer.write("distance (km),duration (min),pace (km/h),dayOfWeek,hourOfDay,nextRunning (day)\n")
 			}
 			case "arff" => {
 				writer = new FileWriter("running.arff", false)
@@ -137,9 +137,9 @@ class Analyzer {
 				writer.write("@ATTRIBUTE distance NUMERIC\n")
 				writer.write("@ATTRIBUTE duration NUMERIC\n")
 				writer.write("@ATTRIBUTE pace NUMERIC\n")
-				writer.write("@ATTRIBUTE dayOfWeek {0,1,2,3,4,5,6,7}\n")
-				writer.write("@ATTRIBUTE hourOfDay {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24}\n")
-				writer.write("@ATTRIBUTE sinceLastRunning NUMERIC\n")
+				writer.write("@ATTRIBUTE dayOfWeek {1,2,3,4,5,6,7}\n")
+				writer.write("@ATTRIBUTE hourOfDay {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}\n")
+				writer.write("@ATTRIBUTE nextRunning NUMERIC\n")
 				writer.write("\n@DATA\n")
 			}
 			case _ => {
@@ -155,17 +155,30 @@ class Analyzer {
 				var pace: Double = 0					// km/h
 				var dayOfWeek: Int = 0
 				var hourOfDay: Int = 0
-				var sinceLastRunning: Double = 0
+				var nextRunning: Double = 0
 				
-				if (duration != 0) pace = distance / duration * 60.0
+				writer.write(distance + ",")
+				if (duration == 0) {
+					writer.write("?,?,")
+				} else {
+					pace = distance / duration * 60.0
+					writer.write(duration + "," + pace + ",")
+				}
+				
 				if (status._4) {
 					dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
 					hourOfDay = status._3.get(Calendar.HOUR_OF_DAY)
-					if (hourOfDay == 0) hourOfDay = 24
+					writer.write(dayOfWeek + "," + hourOfDay + ",")
+				} else {
+					writer.write("?,?,")
 				}
-				if (i != 0) sinceLastRunning = (value(i)._3.getTimeInMillis - value(i - 1)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
 				
-				writer.write(distance + ", " + duration + ", " + pace + ", " + dayOfWeek + ", " + hourOfDay + ", " + sinceLastRunning + "\n")
+				if (i == value.size - 1) {
+					writer.write("?\n")
+				} else {
+					nextRunning = (value(i + 1)._3.getTimeInMillis - value(i)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
+					writer.write(nextRunning + "\n")
+				}
 			}
 		}
 		writer.close
@@ -174,7 +187,7 @@ class Analyzer {
 		fileType match {
 			case "csv" => {
 				writer = new FileWriter("user.csv", false)
-				writer.write("times, frequency (times/week)\n")
+				writer.write("times,frequency (times/week)\n")
 			}
 			case "arff" => {
 				writer = new FileWriter("user.arff", false)
@@ -190,10 +203,15 @@ class Analyzer {
 		}
 		data.values.foreach {value =>
 			var frequency: Double = 0
+			
+			writer.write(value.size + ",")
+			
 			if (value.size > 1) {
 				frequency = (value.size - 1) / ((value(value.size - 1)._3.getTimeInMillis - value(0)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0 / 7.0)
+				writer.write(frequency + "\n")
+			} else {
+				writer.write("?\n")
 			}
-			writer.write(value.size + ", " + frequency + "\n")
 		}
 		writer.close
 	}
