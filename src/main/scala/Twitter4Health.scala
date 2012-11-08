@@ -16,9 +16,13 @@ object Twitter4Health {
 				case "generate" => {
 					val analyzer = new Analyzer
 					args(1) match {
+						case "arff" => {
+							analyzer.preAnalyze(twitterDB)
+							analyzer.generateReport("arff")
+						}
 						case "csv" => {
 							analyzer.preAnalyze(twitterDB)
-							analyzer.generateCSV
+							analyzer.generateReport("csv")
 						}
 						case "healthdb" => {
 							analyzer.preAnalyze(twitterDB)

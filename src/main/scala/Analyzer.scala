@@ -122,41 +122,78 @@ class Analyzer {
 		}
 	}
 
-	def generateCSV(): Unit = {
-		// Generate status.csv
-		var writer = new FileWriter("status.csv", false)
-		writer.write("distance (km), duration (min), pace (km/h), dayOfWeek, hourOfDay, daySinceLastRunning (day)\n")
+	def generateReport(fileType: String): Unit = {
+		// Generate running report
+		var writer: FileWriter = null
+		
+		fileType match {
+			case "csv" => {
+				writer = new FileWriter("running.csv", false)
+				writer.write("distance (km), duration (min), pace (km/h), dayOfWeek, hourOfDay, sinceLastRunning (day)\n")
+			}
+			case "arff" => {
+				writer = new FileWriter("running.arff", false)
+				writer.write("@RELATION running\n")
+				writer.write("@ATTRIBUTE distance NUMERIC\n")
+				writer.write("@ATTRIBUTE duration NUMERIC\n")
+				writer.write("@ATTRIBUTE pace NUMERIC\n")
+				writer.write("@ATTRIBUTE dayOfWeek {0,1,2,3,4,5,6,7}\n")
+				writer.write("@ATTRIBUTE hourOfDay {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24}\n")
+				writer.write("@ATTRIBUTE sinceLastRunning NUMERIC\n")
+				writer.write("\n@DATA\n")
+			}
+			case _ => {
+				println("Unsupported output file type: " + fileType)
+				return
+			}
+		}
 		data.values.foreach {value =>
 			for (i <- 0 until value.size) {
 				val status = value(i)
 				val distance: Double = status._1		// km
 				val duration: Double = status._2 / 60.0	// min
-				var pace: Double = -1					// km/h
-				var dayOfWeek: Int = -1
-				var hourOfDay: Int = -1
-				var daySinceLastRunning: Double = -1
+				var pace: Double = 0					// km/h
+				var dayOfWeek: Int = 0
+				var hourOfDay: Int = 0
+				var sinceLastRunning: Double = 0
 				
 				if (duration != 0) pace = distance / duration * 60.0
 				if (status._4) {
 					dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
 					hourOfDay = status._3.get(Calendar.HOUR_OF_DAY)
+					if (hourOfDay == 0) hourOfDay = 24
 				}
-				if (i != 0) daySinceLastRunning = (value(i)._3.getTimeInMillis - value(i - 1)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
+				if (i != 0) sinceLastRunning = (value(i)._3.getTimeInMillis - value(i - 1)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
 				
-				writer.write(distance + ", " + duration + ", " + pace + ", " + dayOfWeek + ", " + hourOfDay + ", " + daySinceLastRunning + ",\n")
+				writer.write(distance + ", " + duration + ", " + pace + ", " + dayOfWeek + ", " + hourOfDay + ", " + sinceLastRunning + "\n")
 			}
 		}
 		writer.close
 		
-		// Generate user.csv
-		writer = new FileWriter("user.csv", false)
-		writer.write("times, frequency (times/week)\n")
+		// Generate user report
+		fileType match {
+			case "csv" => {
+				writer = new FileWriter("user.csv", false)
+				writer.write("times, frequency (times/week)\n")
+			}
+			case "arff" => {
+				writer = new FileWriter("user.arff", false)
+				writer.write("@RELATION user\n")
+				writer.write("@ATTRIBUTE times NUMERIC\n")
+				writer.write("@ATTRIBUTE frequency NUMERIC\n")
+				writer.write("\n@DATA\n")
+			}
+			case _ => {
+				println("Unsupported output file type: " + fileType)
+				return
+			}
+		}
 		data.values.foreach {value =>
-			var frequency: Double = -1
+			var frequency: Double = 0
 			if (value.size > 1) {
 				frequency = (value.size - 1) / ((value(value.size - 1)._3.getTimeInMillis - value(0)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0 / 7.0)
 			}
-			writer.write(value.size + ", " + frequency + ",\n")
+			writer.write(value.size + ", " + frequency + "\n")
 		}
 		writer.close
 	}

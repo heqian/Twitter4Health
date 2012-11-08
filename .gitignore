@@ -15,3 +15,4 @@ project/boot/
 # My .gitignore
 *.csv
 *.db
+*.arff
