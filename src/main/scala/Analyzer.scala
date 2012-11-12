@@ -17,10 +17,10 @@ class Analyzer {
 		println("Total User:\t\t" + users.size)
 			
 		var unresolvedCounter: Long = 0
-		var duplicateCounter: Long = 0
 		var retweetCounter: Long = 0
 		var noDurationCounter: Long = 0
 		var noOffsetCounter: Long = 0
+		var withDurationAndOffsetCounter: Long = 0
 		var noGeoCounter: Long = 0
 		var userCounter: Long = 0
 		var statusCounter: Long = 0
@@ -69,14 +69,8 @@ class Analyzer {
 						
 						// Add to dataset
 						if (data.contains(userId)) {
-							val last = data(userId).last
-							// Check duplicate
-							if (last._1 == distanceValue && last._2 == durationValue) {
-								duplicateCounter += 1
-							} else {
-								data(userId) += Tuple7(distanceValue, durationValue, calendar, isLocalTime, geo, id, userId)
-								statusCounter += 1
-							}
+							data(userId) += Tuple7(distanceValue, durationValue, calendar, isLocalTime, geo, id, userId)
+							statusCounter += 1
 						} else {
 							data += userId -> mutable.ListBuffer(Tuple7(distanceValue, durationValue, calendar, isLocalTime, geo, id, userId))
 							userCounter += 1
@@ -97,17 +91,20 @@ class Analyzer {
 				if (status._2 == 0) noDurationCounter += 1
 				if (status._4 == false) noOffsetCounter += 1
 				if (status._5 == "") noGeoCounter += 1
+				if (status._4 == true && status._2 != 0) withDurationAndOffsetCounter += 1
 			}
 		}
-		println("\tUnresolved Status:\t" + unresolvedCounter)
-		println("\tDuplicate Status:\t" + duplicateCounter)
-		println("\tRT Status:\t" + retweetCounter)
+		var total100 = statuses.length.toDouble / 100
+		println("\tUnresolved Status:\t" + unresolvedCounter + " (" + (unresolvedCounter / total100) + "%)")
+		println("\tRT Status:\t" + retweetCounter + " (" + (retweetCounter / total100) + "%)")
 		println("")
-		println("User:\t\t\t" + userCounter)
-		println("Status:\t\t\t" + statusCounter)
-		println("\tNo Duration Data:\t" + noDurationCounter)
-		println("\tNo UTC Offset Data:\t" + noOffsetCounter)
-		println("\tNo Geo Location Data:\t" + noGeoCounter)
+		println("User:\t\t\t" + userCounter + " (" + (userCounter / users.size.toDouble * 100) + "%)")
+		println("Status:\t\t\t" + statusCounter + " (" + (statusCounter / total100) + "%)")
+		total100 = statusCounter.toDouble / 100
+		println("\tWith Duration Data:\t" + (statusCounter - noDurationCounter) + " (" + ((statusCounter - noDurationCounter) / total100) + "%)")
+		println("\tWith UTC Offset Data:\t" + (statusCounter - noOffsetCounter) + " (" + ((statusCounter - noOffsetCounter) / total100) + "%)")
+		println("\t\tWith Duration & UTC Offset Data:\t" + withDurationAndOffsetCounter + " (" + (withDurationAndOffsetCounter / total100) + "%)")
+		println("\tWith Geo Location Data:\t" + (statusCounter - noGeoCounter) + " (" + ((statusCounter - noGeoCounter) / total100) + "%)")
 		println("")
 	}
 	
@@ -122,7 +119,7 @@ class Analyzer {
 		}
 	}
 
-	def generateReport(fileType: String): Unit = {
+	def generateReport(fileType: String, withDuration: Boolean, withUTC: Boolean): Unit = {
 		// Generate running report
 		var writer: FileWriter = null
 		
@@ -157,27 +154,30 @@ class Analyzer {
 				var hourOfDay: Int = 0
 				var nextRunning: Double = 0
 				
-				writer.write(distance + ",")
-				if (duration == 0) {
-					writer.write("?,?,")
+				if ((withDuration && duration == 0) || (withUTC && !status._4)) {
 				} else {
-					pace = distance / duration * 60.0
-					writer.write(duration + "," + pace + ",")
-				}
+					writer.write(distance + ",")
+					if (duration == 0) {
+						writer.write("?,?,")
+					} else {
+						pace = distance / duration * 60.0
+						writer.write(duration + "," + pace + ",")
+					}
 				
-				if (status._4) {
-					dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
-					hourOfDay = status._3.get(Calendar.HOUR_OF_DAY)
-					writer.write(dayOfWeek + "," + hourOfDay + ",")
-				} else {
-					writer.write("?,?,")
-				}
+					if (status._4) {
+						dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
+						hourOfDay = status._3.get(Calendar.HOUR_OF_DAY)
+						writer.write(dayOfWeek + "," + hourOfDay + ",")
+					} else {
+						writer.write("?,?,")
+					}
 				
-				if (i == value.size - 1) {
-					writer.write("?\n")
-				} else {
-					nextRunning = (value(i + 1)._3.getTimeInMillis - value(i)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
-					writer.write(nextRunning + "\n")
+					if (i == value.size - 1) {
+						writer.write("?\n")
+					} else {
+						nextRunning = (value(i + 1)._3.getTimeInMillis - value(i)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
+						writer.write(nextRunning + "\n")
+					}
 				}
 			}
 		}
