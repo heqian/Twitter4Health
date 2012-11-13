@@ -18,40 +18,27 @@ object Twitter4Health {
 					args(1) match {
 						case "arff" => {
 							analyzer.preAnalyze(twitterDB)
-							if (args.size == 2) {
-								analyzer.generateReport(args(1), false, false)
-							} else if (args.size == 3) {
-								args(2) match {
-									case "duration" => analyzer.generateReport(args(1), true, false)
-									case "utc" => analyzer.generateReport(args(1), false, true)
-									case _ => showCmdDescription
-								}
-							} else if (args.size == 4) {
-								if ((args(2) == "duration" && args(3) == "utc") || (args(3) == "duration" && args(2) == "utc")) {
-									analyzer.generateReport(args(1), true, true)
+							if (args.size == 3) {
+								if (args(2) == "human") {
+									analyzer.generateReport(args(1), true)
 								} else {
-									showCmdDescription
+									analyzer.generateReport(args(1), false)
 								}
+							} else {
+								analyzer.generateReport(args(1), false)
 							}
 						}
 						case "csv" => {
 							analyzer.preAnalyze(twitterDB)
-							if (args.size == 2) {
-								analyzer.generateReport(args(1), false, false)
-							} else if (args.size == 3) {
-								args(2) match {
-									case "duration" => analyzer.generateReport(args(1), true, false)
-									case "utc" => analyzer.generateReport(args(1), false, true)
-									case _ => showCmdDescription
-								}
-							} else if (args.size == 4) {
-								if ((args(2) == "duration" && args(3) == "utc") || (args(3) == "duration" && args(2) == "utc")) {
-									analyzer.generateReport(args(1), true, true)
+							if (args.size == 3) {
+								if (args(2) == "human") {
+									analyzer.generateReport(args(1), true)
 								} else {
-									showCmdDescription
+									analyzer.generateReport(args(1), false)
 								}
+							} else {
+								analyzer.generateReport(args(1), false)
 							}
-							
 						}
 						case "healthdb" => {
 							analyzer.preAnalyze(twitterDB)

@@ -119,18 +119,21 @@ class Analyzer {
 		}
 	}
 
-	def generateReport(fileType: String, withDuration: Boolean, withUTC: Boolean): Unit = {
+	def generateReport(fileType: String, isHumanDetectorEnabled: Boolean): Unit = {
 		// Generate running report
 		var writer: FileWriter = null
+		var totalCounter: Long = 0
+		var humanCounter: Long = 0
 		
 		fileType match {
 			case "csv" => {
 				writer = new FileWriter("running.csv", false)
-				writer.write("distance (km),duration (min),pace (km/h),dayOfWeek,hourOfDay,nextRunning (day)\n")
+				writer.write("userId, distance (km),duration (min),pace (km/h),dayOfWeek,hourOfDay,nextRunning (day)\n")
 			}
 			case "arff" => {
 				writer = new FileWriter("running.arff", false)
 				writer.write("@RELATION running\n")
+				writer.write("@ATTRIBUTE userId NUMERIC\n")
 				writer.write("@ATTRIBUTE distance NUMERIC\n")
 				writer.write("@ATTRIBUTE duration NUMERIC\n")
 				writer.write("@ATTRIBUTE pace NUMERIC\n")
@@ -145,8 +148,10 @@ class Analyzer {
 			}
 		}
 		data.values.foreach {value =>
+			totalCounter += value.size
 			for (i <- 0 until value.size) {
 				val status = value(i)
+				val userId: Long = status._7
 				val distance: Double = status._1		// km
 				val duration: Double = status._2 / 60.0	// min
 				var pace: Double = 0					// km/h
@@ -154,8 +159,14 @@ class Analyzer {
 				var hourOfDay: Int = 0
 				var nextRunning: Double = 0
 				
-				if ((withDuration && duration == 0) || (withUTC && !status._4)) {
-				} else {
+				var isHuman = true
+				if (isHumanDetectorEnabled) {
+					isHuman = detectHuman(distance * 1000, duration * 60)
+				}
+				
+				if (isHuman) {
+					humanCounter += 1
+					writer.write(userId + ",")
 					writer.write(distance + ",")
 					if (duration == 0) {
 						writer.write("?,?,")
@@ -182,7 +193,11 @@ class Analyzer {
 			}
 		}
 		writer.close
-		
+		if (isHumanDetectorEnabled) {
+			println("\tHuman (no duration is considered as not human):\t" + humanCounter + " (" + humanCounter.toDouble / totalCounter.toDouble * 100 + "%)")
+		}
+
+/*		
 		// Generate user report
 		fileType match {
 			case "csv" => {
@@ -214,9 +229,63 @@ class Analyzer {
 			}
 		}
 		writer.close
+*/
 	}
 	
-	def fetchTweetsBetween2Runnings(cacheDB: TwitterDB, frequency: Int) = {
+	def detectHuman(distance: Double, duration: Double): Boolean = {
+		if (distance <= 0 || duration <= 0 || duration > 24 * 3600) {
+			return false
+		}
+		val speed: Double = distance / duration	// meter/second
+		
+		// Rules
+		val speedTable = Array(
+			Array(0,		10.44),
+			Array(100,		10.44),
+			Array(200,		10.42),
+			Array(400,		9.26),
+			Array(800,		7.92),
+			Array(1000,		7.58),
+			Array(1500,		7.28),
+			Array(1609,		7.22),	// 1 mile
+			Array(2000,		7.02),
+			Array(3000,		6.81),
+			Array(5000,		6.6),
+			Array(10000,	6.23),
+			Array(15000,	6.02),
+			Array(20000,	6.02),
+			Array(21097,	6.02),	// half marathon
+			Array(21285,	5.91),	// one hour run
+			Array(25000,	5.8),
+			Array(30000,	5.6),
+			Array(30000,	5.69),
+			Array(42195,	5.67),	// marathon
+			Array(90000,	4.68),	// comrades
+			Array(100000,	4.46),
+			Array(273366,	3.16)	// 24-hour run
+		)
+		
+		for (i <- 0 until speedTable.length - 1) {
+			val lowerBound = speedTable(i)(0)
+			val upperBound = speedTable(i + 1)(0)
+			val maxSpeed = speedTable(i)(1)
+			
+			if (lowerBound < distance && distance <= upperBound) {
+				if (speed > maxSpeed) {
+					// println(lowerBound + " < " + distance + " <= " + upperBound + ": " + maxSpeed + "\t< " + speed)
+					return false
+				} else {
+					return true
+				}
+			}
+		}
+		
+		// Be a human is not easy...
+		// println("No human can run this long (" + distance + ")!")
+		false
+	}
+	
+	def fetchTweetsBetween2Runnings(cacheDB: TwitterDB, frequency: Int): Unit = {
 		cacheDB.createTables
 		
 		val twitterAPI = new TwitterAPI
