@@ -138,7 +138,7 @@ class Analyzer {
 				writer.write("@ATTRIBUTE duration NUMERIC\n")
 				writer.write("@ATTRIBUTE pace NUMERIC\n")
 				writer.write("@ATTRIBUTE dayOfWeek {1,2,3,4,5,6,7}\n")
-				writer.write("@ATTRIBUTE hourOfDay {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}\n")
+				writer.write("@ATTRIBUTE hourOfDay NUMERIC\n")
 				writer.write("@ATTRIBUTE nextRunning NUMERIC\n")
 				writer.write("\n@DATA\n")
 			}
@@ -156,7 +156,7 @@ class Analyzer {
 				val duration: Double = status._2 / 60.0	// min
 				var pace: Double = 0					// km/h
 				var dayOfWeek: Int = 0
-				var hourOfDay: Int = 0
+				var hourOfDay: Double = 0
 				var nextRunning: Double = 0
 				
 				var isHuman = true
@@ -177,7 +177,7 @@ class Analyzer {
 				
 					if (status._4) {
 						dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
-						hourOfDay = status._3.get(Calendar.HOUR_OF_DAY)
+						hourOfDay = status._3.get(Calendar.HOUR_OF_DAY) + status._3.get(Calendar.MINUTE).toDouble / 60.0
 						writer.write(dayOfWeek + "," + hourOfDay + ",")
 					} else {
 						writer.write("?,?,")
