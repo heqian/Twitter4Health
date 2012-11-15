@@ -16,5 +16,6 @@ libraryDependencies ++= Seq(
 	"com.typesafe" % "slick_2.10.0-RC1" % "0.11.2",
 	"org.slf4j" % "slf4j-nop" % "1.6.4",
 	"com.h2database" % "h2" % "1.3.166",
-	"org.apache.httpcomponents" % "httpclient" % "4.1.2"
+	"org.apache.httpcomponents" % "httpclient" % "4.1.2",
+	"nz.ac.waikato.cms.weka" % "weka-dev" % "3.7.7"
 )

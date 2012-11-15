@@ -16,3 +16,4 @@ project/boot/
 *.csv
 *.db
 *.arff
+*.txt

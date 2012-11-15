@@ -14,9 +14,9 @@ object Twitter4Health {
 					twitterAPI.monitorStream(twitterDB, Array[Long](), Array[String]("#" + args(1)))
 				}
 				case "generate" => {
-					val analyzer = new Analyzer
 					args(1) match {
 						case "arff" => {
+							val analyzer = new Analyzer
 							analyzer.preAnalyze(twitterDB)
 							if (args.size == 3) {
 								if (args(2) == "human") {
@@ -29,6 +29,7 @@ object Twitter4Health {
 							}
 						}
 						case "csv" => {
+							val analyzer = new Analyzer
 							analyzer.preAnalyze(twitterDB)
 							if (args.size == 3) {
 								if (args(2) == "human") {
@@ -39,10 +40,6 @@ object Twitter4Health {
 							} else {
 								analyzer.generateReport(args(1), false)
 							}
-						}
-						case "healthdb" => {
-							analyzer.preAnalyze(twitterDB)
-							analyzer.generateHealthDB(healthDB)
 						}
 						case _ => showCmdDescription
 					}
@@ -61,7 +58,15 @@ object Twitter4Health {
 				}
 				case "thesaurus" => {
 					val thesaurus = new MerriamWebsterAPI
-					thesaurus.closure(args(1), 2)
+					if (args.size == 3) {
+						thesaurus.closure(args(1), args(2).toInt)
+					} else {
+						thesaurus.closure(args(1), 1)
+					}
+				}
+				case "train" => {
+					val trainer = new Trainer("status.txt")
+					trainer.filter(args(1))
 				}
 				case _ => showCmdDescription
 			}
@@ -74,7 +79,9 @@ object Twitter4Health {
 		println("Usage:")
 		println("\tTwitter4Health")
 		println("\t\t\tmonitor [hashtag]")
-		println("\t\t\tgenerate [arff|csv [duration|utc]]|healthdb]")
+		println("\t\t\tgenerate [arff|csv] [human]")
 		println("\t\t\tfetch [runner] [frequency]")
+		println("\t\t\tthesaurus [word］[depth]")
+		println("\t\t\ttrain [word list file]")
 	}
 }

@@ -81,6 +81,13 @@ class TwitterDB(val database: Database) {
 		}
 	}
 	
+	def getTexts: List[String] = {
+		database.withSession {
+			val statuses = for (status <- Statuses) yield status.text
+			statuses.list
+		}
+	}
+	
 	def existUser(id: Long): Boolean = {
 		database.withSession {
 			val users = (for (user <- Users if user.id === id) yield user.id).list
