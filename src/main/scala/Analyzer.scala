@@ -37,22 +37,38 @@ class Analyzer {
 						val user = users(userId)
 						
 						// Distance
-						var distanceValue: Double = distance.replace(",", ".").replace(":", ".").toDouble
+						var distanceValue: Double = 0.0
+						try {
+							distanceValue = distance.replace(",", ".").replace(":", ".").toDouble
+						} catch {
+							case e: Exception => {
+								println("String->Double conversion failed: " + e)
+								println("Status ID: " + id)
+							}
+						}
+						
 						if (unit == "mi") {
 							// Convert to km
 							distanceValue = distanceValue * 1.609344
 						}
 						// Duration
 						var durationValue: Int = 0
-						if (duration != null) {
-							durationValue = duration.replace(":", "").replace("'", "").replace("\"", "").replace(".", "").toInt
-							durationValue = durationValue / 10000 * 3600 + durationValue / 100 % 100 * 60 + durationValue % 100
-							// println(time + " == " + durationValue)
-						} else if (pace != null) {
-							durationValue = pace.replace("'", "").toInt
-							durationValue = durationValue / 100 * 60 + durationValue % 100
-							durationValue = (durationValue * distance.replace(",", ".").toDouble).toInt
-							// println(pace + " == " + durationValue)
+						try {
+							if (duration != null) {
+								durationValue = duration.replace(":", "").replace("'", "").replace("\"", "").replace(".", "").toInt
+								durationValue = durationValue / 10000 * 3600 + durationValue / 100 % 100 * 60 + durationValue % 100
+								// println(time + " == " + durationValue)
+							} else if (pace != null) {
+								durationValue = pace.replace("'", "").toInt
+								durationValue = durationValue / 100 * 60 + durationValue % 100
+								durationValue = (durationValue * distance.replace(",", ".").toDouble).toInt
+								// println(pace + " == " + durationValue)
+							}
+						} catch {
+							case e: Exception => {
+								println("String->Int conversion failed: " + e)
+								println("Status ID: " + id)
+							}
 						}
 							
 						// Created Time
