@@ -6,36 +6,35 @@ import java.util.Calendar
 import java.util.TimeZone
 
 class Analyzer {
-	// Filter status & generate (userId -> List((distance, duration, utcTime, isLocalTime, geo, statusId, userId)))
-	val data = mutable.Map.empty[Long, mutable.ListBuffer[(Double, Int, Calendar, Boolean, String, Long, Long)]]
+	// Filter status & generate (userId -> List((distance, duration, utcTime, offset, timeZone, statusId, userId)))
+	val data = mutable.Map.empty[Long, mutable.ListBuffer[(Double, Int, Calendar, Long, String, Long, Long)]]
 	
 	def preAnalyze(twitterDB: TwitterDB): Unit = {
 		// Get all
 		val statuses = twitterDB.getStatuses
 		println("Total Status:\t\t" + statuses.length)
-		val users = twitterDB.getUsers
-		println("Total User:\t\t" + users.size)
-			
+		val utcOffsets = twitterDB.getOffsets
+		val timeZones = twitterDB.getTimeZones
+		println("Total User:\t\t" + utcOffsets.size)
+		
 		var unresolvedCounter: Long = 0
 		var retweetCounter: Long = 0
 		var noDurationCounter: Long = 0
 		var noOffsetCounter: Long = 0
 		var withDurationAndOffsetCounter: Long = 0
-		var noGeoCounter: Long = 0
+		var noTimeZoneCounter: Long = 0
 		var userCounter: Long = 0
 		var statusCounter: Long = 0
+		var nonHumanCounter: Long = 0
 			
 		val nikePattern = """^(.*)I (just )?(finished|crushed) a (\d+.\d+) ?(km|mi) run  ?(with a pace of (\d+'\d+).* )?(with a time of (.+) )?with (.+)\..*$""".r
-		statuses foreach { case (id, userId, text, createdAt, geo) =>
+		statuses foreach { case (id, userId, text, createdAt) =>
 			text.replace("\n", "") match {
 				case nikePattern(comment, word1, word2, distance, unit, paceSentence, pace, durationSentence, duration, client) => {
 					// Check if the tweet is retweeted by someone
 					if (comment.contains("RT") || comment.contains("\"@")) {
 						retweetCounter += 1
-					} else {
-						// Find the user info
-						val user = users(userId)
-						
+					} else {						
 						// Distance
 						var distanceValue: Double = 0.0
 						try {
@@ -70,27 +69,32 @@ class Analyzer {
 								println("Status ID: " + id)
 							}
 						}
-							
+						
 						// Created Time
-						var offset: Long = user
-						var isLocalTime = true
+						var offset: Long = utcOffsets(userId)
 						if (offset == -1) {
-							isLocalTime = false
 							offset = 0
 						}
 						var calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 						calendar.setTimeInMillis(createdAt + offset * 1000)
+						offset = utcOffsets(userId)
 						
-						// Geo location
+						// Time Zone
+						var timeZone: String = timeZones(userId).getOrElse("")
 						
-						// Add to dataset
-						if (data.contains(userId)) {
-							data(userId) += Tuple7(distanceValue, durationValue, calendar, isLocalTime, geo, id, userId)
-							statusCounter += 1
+						// Detect human
+						if (detectHuman(distanceValue * 1000, durationValue)) {
+							// Add to dataset
+							if (data.contains(userId)) {
+								data(userId) += Tuple7(distanceValue, durationValue, calendar, offset, timeZone, id, userId)
+								statusCounter += 1
+							} else {
+								data += userId -> mutable.ListBuffer(Tuple7(distanceValue, durationValue, calendar, offset, timeZone, id, userId))
+								userCounter += 1
+								statusCounter += 1
+							}
 						} else {
-							data += userId -> mutable.ListBuffer(Tuple7(distanceValue, durationValue, calendar, isLocalTime, geo, id, userId))
-							userCounter += 1
-							statusCounter += 1
+							nonHumanCounter += 1
 						}
 					}
 				}
@@ -105,46 +109,34 @@ class Analyzer {
 		data.values.foreach { user =>
 			user.foreach { status => 
 				if (status._2 == 0) noDurationCounter += 1
-				if (status._4 == false) noOffsetCounter += 1
-				if (status._5 == "") noGeoCounter += 1
-				if (status._4 == true && status._2 != 0) withDurationAndOffsetCounter += 1
+				if (status._4 == -1) noOffsetCounter += 1
+				if (status._5 == "") noTimeZoneCounter += 1
+				if (status._4 != -1 && status._2 != 0) withDurationAndOffsetCounter += 1
 			}
 		}
 		var total100 = statuses.length.toDouble / 100
 		println("\tUnresolved Status:\t" + unresolvedCounter + " (" + (unresolvedCounter / total100) + "%)")
 		println("\tRT Status:\t" + retweetCounter + " (" + (retweetCounter / total100) + "%)")
+		println("\tNon Human Status:\t" + nonHumanCounter + " (" + (nonHumanCounter / total100) + "%)")
 		println("")
-		println("User:\t\t\t" + userCounter + " (" + (userCounter / users.size.toDouble * 100) + "%)")
+		println("User:\t\t\t" + userCounter + " (" + (userCounter / utcOffsets.size.toDouble * 100) + "%)")
 		println("Status:\t\t\t" + statusCounter + " (" + (statusCounter / total100) + "%)")
 		total100 = statusCounter.toDouble / 100
 		println("\tWith Duration Data:\t" + (statusCounter - noDurationCounter) + " (" + ((statusCounter - noDurationCounter) / total100) + "%)")
 		println("\tWith UTC Offset Data:\t" + (statusCounter - noOffsetCounter) + " (" + ((statusCounter - noOffsetCounter) / total100) + "%)")
 		println("\t\tWith Duration & UTC Offset Data:\t" + withDurationAndOffsetCounter + " (" + (withDurationAndOffsetCounter / total100) + "%)")
-		println("\tWith Geo Location Data:\t" + (statusCounter - noGeoCounter) + " (" + ((statusCounter - noGeoCounter) / total100) + "%)")
+		println("\tWith Time Zone Data:\t" + (statusCounter - noTimeZoneCounter) + " (" + ((statusCounter - noTimeZoneCounter) / total100) + "%)")
 		println("")
 	}
-	
-	def generateHealthDB(healthDB: HealthDB): Unit = {
-		healthDB.createTables
-		healthDB.database.withSession {
-			data.values.foreach { value =>
-				value.foreach { status => 
-					healthDB.insertRunning(status._6, status._7, status._1, status._2, status._3.getTimeInMillis, status._4, status._5)
-				}
-			}
-		}
-	}
 
-	def generateReport(fileType: String, isHumanDetectorEnabled: Boolean): Unit = {
+	def generateReport(fileType: String): Unit = {
 		// Generate running report
 		var writer: FileWriter = null
-		var totalCounter: Long = 0
-		var humanCounter: Long = 0
 		
 		fileType match {
 			case "csv" => {
 				writer = new FileWriter("running.csv", false)
-				writer.write("userId, distance (km),duration (min),pace (km/h),dayOfWeek,hourOfDay,nextRunning (day)\n")
+				writer.write("userId, distance (km),duration (min),speed (km/h),dayOfWeek,hourOfDay,timeZone,daySince1970,nextRunning (day)\n")
 			}
 			case "arff" => {
 				writer = new FileWriter("running.arff", false)
@@ -152,9 +144,11 @@ class Analyzer {
 				writer.write("@ATTRIBUTE userId NUMERIC\n")
 				writer.write("@ATTRIBUTE distance NUMERIC\n")
 				writer.write("@ATTRIBUTE duration NUMERIC\n")
-				writer.write("@ATTRIBUTE pace NUMERIC\n")
+				writer.write("@ATTRIBUTE speed NUMERIC\n")
 				writer.write("@ATTRIBUTE dayOfWeek {1,2,3,4,5,6,7}\n")
 				writer.write("@ATTRIBUTE hourOfDay NUMERIC\n")
+				writer.write("@ATTRIBUTE timeZone NUMERIC\n")
+				writer.write("@ATTRIBUTE daySince1970 NUMERIC\n")
 				writer.write("@ATTRIBUTE nextRunning NUMERIC\n")
 				writer.write("\n@DATA\n")
 			}
@@ -164,7 +158,6 @@ class Analyzer {
 			}
 		}
 		data.values.foreach {value =>
-			totalCounter += value.size
 			for (i <- 0 until value.size) {
 				val status = value(i)
 				val userId: Long = status._7
@@ -173,47 +166,38 @@ class Analyzer {
 				var pace: Double = 0					// km/h
 				var dayOfWeek: Int = 0
 				var hourOfDay: Double = 0
+				var daySince1970: Long = 0
 				var nextRunning: Double = 0
 				
-				var isHuman = true
-				if (isHumanDetectorEnabled) {
-					isHuman = detectHuman(distance * 1000, duration * 60)
+				writer.write(userId + ",")
+				writer.write(distance + ",")
+				if (duration == 0) {
+					writer.write("?,?,")
+				} else {
+					pace = distance / duration * 60.0
+					writer.write(duration + "," + pace + ",")
 				}
 				
-				if (isHuman) {
-					humanCounter += 1
-					writer.write(userId + ",")
-					writer.write(distance + ",")
-					if (duration == 0) {
-						writer.write("?,?,")
-					} else {
-						pace = distance / duration * 60.0
-						writer.write(duration + "," + pace + ",")
-					}
-				
-					if (status._4) {
-						dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
-						hourOfDay = status._3.get(Calendar.HOUR_OF_DAY) + status._3.get(Calendar.MINUTE).toDouble / 60.0
-						writer.write(dayOfWeek + "," + hourOfDay + ",")
-					} else {
-						writer.write("?,?,")
-					}
-				
-					if (i == value.size - 1) {
-						writer.write("?\n")
-					} else {
-						nextRunning = (value(i + 1)._3.getTimeInMillis - value(i)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
-						writer.write(nextRunning + "\n")
-					}
+				if (status._4 != -1) {
+					dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
+					hourOfDay = status._3.get(Calendar.HOUR_OF_DAY) + status._3.get(Calendar.MINUTE).toDouble / 60.0
+					daySince1970 = status._3.getTimeInMillis() / 1000 / 3600 / 24
+					writer.write(dayOfWeek + "," + hourOfDay + "," + status._5 + "," + daySince1970 + ",")
+				} else {
+					writer.write("?,?,?,?,")
 				}
+				
+				if (i == value.size - 1) {
+					writer.write("?\n")
+				} else {
+					nextRunning = (value(i + 1)._3.getTimeInMillis - value(i)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0
+					writer.write(nextRunning + "\n")
+				}
+				
 			}
 		}
 		writer.close
-		if (isHumanDetectorEnabled) {
-			println("\tHuman (no duration is considered as not human):\t" + humanCounter + " (" + humanCounter.toDouble / totalCounter.toDouble * 100 + "%)")
-		}
 
-/*		
 		// Generate user report
 		fileType match {
 			case "csv" => {
@@ -245,13 +229,13 @@ class Analyzer {
 			}
 		}
 		writer.close
-*/
 	}
 	
 	def detectHuman(distance: Double, duration: Double): Boolean = {
-		if (distance <= 0 || duration <= 0 || duration > 24 * 3600) {
-			return false
+		if (duration == 0) {
+			return true
 		}
+		
 		val speed: Double = distance / duration	// meter/second
 		
 		// Rules

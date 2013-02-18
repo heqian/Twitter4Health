@@ -69,15 +69,21 @@ class TwitterDB(val database: Database) {
 		}
 	}
 	
-	def getUsers: Map[Long, Long] = {
+	def getOffsets: Map[Long, Long] = {
 		database.withSession {
 			(for (user <- Users) yield user.id -> user.utcOffset).toMap
 		}
 	}
 	
-	def getStatuses: List[(Long, Long, String, Long, String)] = {
+	def getTimeZones: Map[Long, Option[String]] = {
 		database.withSession {
-			(for (status <- Statuses.sortBy(_.id)) yield (status.id, status.userId, status.text, status.createdAt, status.geo)).list
+			(for (user <- Users) yield user.id -> user.timeZone.?).toMap
+		}
+	}
+	
+	def getStatuses: List[(Long, Long, String, Long)] = {
+		database.withSession {
+			(for (status <- Statuses.sortBy(_.id)) yield (status.id, status.userId, status.text, status.createdAt)).list
 		}
 	}
 	

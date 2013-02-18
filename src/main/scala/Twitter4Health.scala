@@ -5,7 +5,6 @@ object Twitter4Health {
 	def main(args: Array[String]) {
 		val twitterDB = new TwitterDB(Database.forURL("jdbc:h2:file:twitter", driver = "org.h2.Driver"))
 		val cacheDB = new TwitterDB(Database.forURL("jdbc:h2:file:cache", driver = "org.h2.Driver"))
-		val healthDB = new HealthDB(Database.forURL("jdbc:h2:file:health", driver = "org.h2.Driver"))
 	
 		if (args.size >= 2) {
 			args(0) match {
@@ -18,28 +17,12 @@ object Twitter4Health {
 						case "arff" => {
 							val analyzer = new Analyzer
 							analyzer.preAnalyze(twitterDB)
-							if (args.size == 3) {
-								if (args(2) == "human") {
-									analyzer.generateReport(args(1), true)
-								} else {
-									analyzer.generateReport(args(1), false)
-								}
-							} else {
-								analyzer.generateReport(args(1), false)
-							}
+							analyzer.generateReport(args(1))
 						}
 						case "csv" => {
 							val analyzer = new Analyzer
 							analyzer.preAnalyze(twitterDB)
-							if (args.size == 3) {
-								if (args(2) == "human") {
-									analyzer.generateReport(args(1), true)
-								} else {
-									analyzer.generateReport(args(1), false)
-								}
-							} else {
-								analyzer.generateReport(args(1), false)
-							}
+							analyzer.generateReport(args(1))
 						}
 						case _ => showCmdDescription
 					}
@@ -68,6 +51,10 @@ object Twitter4Health {
 					val trainer = new Trainer("status.txt")
 					trainer.filter(args(1))
 				}
+				case "text" => {
+					val trainer = new Trainer(args(1))
+					trainer.generateTextFile(twitterDB)
+				}
 				case _ => showCmdDescription
 			}
 		} else {
@@ -79,9 +66,10 @@ object Twitter4Health {
 		println("Usage:")
 		println("\tTwitter4Health")
 		println("\t\t\tmonitor [hashtag]")
-		println("\t\t\tgenerate [arff|csv] [human]")
+		println("\t\t\tgenerate [arff|csv]")
 		println("\t\t\tfetch [runner] [frequency]")
-		println("\t\t\tthesaurus [word］[depth]")
+		println("\t\t\tthesaurus [word] [depth]")
 		println("\t\t\ttrain [word list file]")
+		println("\t\t\ttext")
 	}
 }
