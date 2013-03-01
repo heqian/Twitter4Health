@@ -132,6 +132,8 @@ class Analyzer {
 	def generateReport(fileType: String): Unit = {
 		// Generate running report
 		var writer: FileWriter = null
+		var maxDate: Long = Long.MinValue
+		var minDate: Long = Long.MaxValue
 		
 		fileType match {
 			case "csv" => {
@@ -157,6 +159,7 @@ class Analyzer {
 				return
 			}
 		}
+		
 		data.values.foreach {value =>
 			for (i <- 0 until value.size) {
 				val status = value(i)
@@ -182,6 +185,8 @@ class Analyzer {
 					dayOfWeek = status._3.get(Calendar.DAY_OF_WEEK)
 					hourOfDay = status._3.get(Calendar.HOUR_OF_DAY) + status._3.get(Calendar.MINUTE).toDouble / 60.0
 					daySince1970 = status._3.getTimeInMillis() / 1000 / 3600 / 24
+					if (maxDate < daySince1970) maxDate = daySince1970
+					if (minDate > daySince1970) minDate = daySince1970
 					writer.write(dayOfWeek + "," + hourOfDay + "," + status._5 + "," + daySince1970 + ",")
 				} else {
 					writer.write("?,?,?,?,")
@@ -199,16 +204,26 @@ class Analyzer {
 		writer.close
 
 		// Generate user report
+		var numberOfWeek: Int = ((maxDate - minDate + 1) / 7).toInt
+		if ((maxDate - minDate + 1) % 7 != 0) numberOfWeek += 1
+		val weeks = new Array[Double](numberOfWeek)
 		fileType match {
 			case "csv" => {
 				writer = new FileWriter("user.csv", false)
-				writer.write("times,frequency (times/week)\n")
+				writer.write("times,frequency (times/week)")
+				for (i <- 0 until numberOfWeek) {
+					writer.write(",week" + (i + 1))
+				}
+				writer.write("\n")
 			}
 			case "arff" => {
 				writer = new FileWriter("user.arff", false)
 				writer.write("@RELATION user\n")
 				writer.write("@ATTRIBUTE times NUMERIC\n")
 				writer.write("@ATTRIBUTE frequency NUMERIC\n")
+				for (i <- 0 until numberOfWeek) {
+					writer.write("@ATTRIBUTE week" + (i + 1) + " NUMERIC\n")
+				}
 				writer.write("\n@DATA\n")
 			}
 			case _ => {
@@ -216,17 +231,33 @@ class Analyzer {
 				return
 			}
 		}
+		
 		data.values.foreach {value =>
 			var frequency: Double = 0
 			
+			// times
 			writer.write(value.size + ",")
-			
+			// frequncy
 			if (value.size > 1) {
 				frequency = (value.size - 1) / ((value(value.size - 1)._3.getTimeInMillis - value(0)._3.getTimeInMillis) / 1000.0 / 3600.0 / 24.0 / 7.0)
-				writer.write(frequency + "\n")
+				writer.write(frequency.toString)
 			} else {
-				writer.write("?\n")
+				writer.write("?")
 			}
+			// weeks
+			for (i <- 0 until weeks.size) weeks(i) = 0.0
+			for (run <- value) {
+				if (run._4 != -1 && run._2 != 0.0) {
+					val daySince1970: Long = run._3.getTimeInMillis() / 1000 / 3600 / 24
+					weeks((daySince1970 - minDate).toInt / 7) += run._2 / 60.0 // minute
+				}
+			}
+			
+			for (week <- weeks) {
+				writer.write("," + week)
+			}
+			
+			writer.write("\n")
 		}
 		writer.close
 	}
