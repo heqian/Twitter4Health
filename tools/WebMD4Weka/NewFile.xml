@@ -1,0 +1,1244 @@
+<?xml version="1.0"?>
+<feed xmlns:media="http://search.yahoo.com/mrss/"
+    xmlns:gr="http://www.google.com/schemas/reader/atom/"
+    xmlns:idx="urn:atom-extension:indexing"
+    xmlns="http://www.w3.org/2005/Atom"
+    gr:dir="ltr"
+    idx:index="no" >
+
+    <!-- Content-type: Preventing XSRF in IE. -->
+
+    <generator uri="http://www.google.com/reader" >
+Google Reader
+    </generator>
+
+    <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+    </id>
+
+    <title>
+WebMD Health
+    </title>
+
+    <subtitle type="html" >
+WebMD Health - Trustworthy, Credible and Timely Health Information
+    </subtitle>
+
+    <gr:continuation>
+CMLKuq3WvK8C
+    </gr:continuation>
+
+    <link
+        href="http://www.google.com/reader/atom/feed/http://rssfeeds.webmd.com/rss/rss.aspx?cid=1033?n=3"
+        rel="self" />
+
+    <link
+        href="http://www.webmd.com/"
+        rel="alternate"
+        type="text/html" />
+
+    <updated>
+2012-04-23T23:16:48Z
+    </updated>
+
+    <entry
+        gr:crawl-timestamp-msec="1335223008368"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/9c4f4c2df0626b14
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Migraine Guidelines Focus on Prevention
+        </title>
+
+        <published>
+2012-04-23T23:06:55Z
+        </published>
+
+        <updated>
+2012-04-23T23:06:55Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/migraines-headaches/news/20120423/migraine-guidelines-focus-prevention?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/treatments_prevent_migraines/69x75_treatments_prevent_migraines.jpg" style="border:0" alt="woman with migraine">&lt;p>New guidelines may help people with frequent migraine headaches get their lives back on track.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1335216498521"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/c0d28f3c75cc4936
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+New Clue to Brain Freeze
+        </title>
+
+        <published>
+2012-04-23T21:18:13Z
+        </published>
+
+        <updated>
+2012-04-23T21:18:13Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/migraines-headaches/news/20120423/new-clue-brain-freeze?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/brain_freezes_explained/69x75_brain_freezes_explained.jpg" style="border:0" alt="girl eating ice cream cone">&lt;p>Ice cream lovers, here's hope! Researchers may be one step closer to understanding one of the most baffling brain phenomenons, the infamous “brain freeze.”&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1335205888111"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/bd42aa07f99862d1
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Bedwetting Misunderstood but Often Treatable
+        </title>
+
+        <published>
+2012-04-23T18:23:03Z
+        </published>
+
+        <updated>
+2012-04-23T18:23:03Z
+        </updated>
+
+        <link
+            href="http://children.webmd.com/news/20120423/bedwetting-misunderstood-often-treatable?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/bedwetting_in_children/69x75_bedwetting_in_children.jpg" style="border:0" alt="alarm clock">&lt;p>Researchers are getting closer to uncovering why children wet the bed and what can be done, but many parents are still in the dark.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1335175651597"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/4991b7c7a3f5f23b
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Shingles Vaccine Deemed Safe in Large Study
+        </title>
+
+        <published>
+2012-04-23T11:00:32Z
+        </published>
+
+        <updated>
+2012-04-23T11:00:32Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/skin-problems-and-treatments/shingles/news/20120423/shingles-vaccine-deemed-safe-in-large-study?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/shingles_vaccine_safe/69x75_shingles_vaccine_safe.jpg" style="border:0" alt="senior woman">&lt;p>The shingles vaccine is “generally safe and well tolerated,” according to a study of nearly 200,000 patients.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1335155757742"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/ee590342facf7a6c
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Benefits of Antidepressants in Autism Overstated?
+        </title>
+
+        <published>
+2012-04-23T05:02:07Z
+        </published>
+
+        <updated>
+2012-04-23T05:02:07Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/brain/autism/news/20120423/are-benefits-antidepressants-in-autism-overstated?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/autism_drug_bias/69x75_autism_drug_bias.jpg" style="border:0" alt="teen with serious expression">&lt;p>Antidepressants probably don't help kids with autism as much as has been believed, a new research review shows.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334964958039"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/3e27eb4e764bffb6
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+New Warnings for MS Drug Gilenya After FDA Review
+        </title>
+
+        <published>
+2012-04-20T23:18:48Z
+        </published>
+
+        <updated>
+2012-04-20T23:18:48Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/multiple-sclerosis/news/20120420/new-warnings-for-ms-drug-gilenya-after-fda-review?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/gilenya_label_change/69x75_gilenya_label_change.jpg" style="border:0" alt="stethoscope in shape of heart">&lt;p>Novartis, the maker of the drug Gilenya (fingolimod), a once-daily oral capsule taken for multiple sclerosis, has added stronger warnings to labels and prescription information about the drug’s possible heart risks, according to a company statement.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334957538027"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/01718dce19b91b49
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Consumer Group to FDA: Take Victoza off the Market
+        </title>
+
+        <published>
+2012-04-20T21:38:31Z
+        </published>
+
+        <updated>
+2012-04-20T21:38:31Z
+        </updated>
+
+        <link
+            href="http://diabetes.webmd.com/news/20120420/consumer-group-to-fda-take-victoza-off-market?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/diabetes_drug_victoza_harmful/69x75_diabetes_drug_victoza_harmful.jpg" style="border:0" alt="syringe">&lt;p>Public Citizen, the Washington, D.C.-based consumer advocacy group, is petitioning the FDA to immediately remove the type 2 diabetes drug Victoza (liraglutide) from the market. The petition claims that the injectable medication puts patients at risk of thyroid cancer, pancreatitis, serious allergic reactions, and kidney failure.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334957538027"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/a577dcd3aaea6b99
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Extra Vitamin C May Help Lower Blood Pressure
+        </title>
+
+        <published>
+2012-04-20T21:20:23Z
+        </published>
+
+        <updated>
+2012-04-20T21:20:23Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/hypertension-high-blood-pressure/news/20120420/extra-vitamin-c-may-help-lower-blood-pressure?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/vitamin_c_lowers_blood_pressure/69x75_vitamin_c_lowers_blood_pressure.jpg" style="border:0" alt="vitamin supplements">&lt;p>Vitamin C supplements may have a useful role in helping to lower blood pressure, a new study suggests.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334953427858"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/85973d662a1898b1
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Depression Linked to Peripheral Artery Disease
+        </title>
+
+        <published>
+2012-04-20T19:59:33Z
+        </published>
+
+        <updated>
+2012-04-20T19:59:33Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/depression/news/20120420/depression-linked-peripheral-artery-disease?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/depression_peripheral_artery_disease/69x75_depression_peripheral_artery_disease.jpg" style="border:0" alt="senior man depressed">&lt;p>Depression may increase risk for peripheral artery disease (PAD), which commonly results from narrowed leg arteries, a new study suggests.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334946229176"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/b17c4dcd436c8dd2
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Could Caffeine Help Dry Eye?
+        </title>
+
+        <published>
+2012-04-20T19:06:27Z
+        </published>
+
+        <updated>
+2012-04-20T19:06:27Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/eye-health/news/20120420/could-caffeine-help-dry-eye?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/caffeine_causes_tears/69x75_caffeine_causes_tears.jpg" style="border:0" alt="human eye">&lt;p>Caffeine can increase tear production and may someday be a treatment for dry eye, scientists say.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334881787957"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/d16873d83373d4b8
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Background TV May Harm Young Kids' Development
+        </title>
+
+        <published>
+2012-04-20T00:09:31Z
+        </published>
+
+        <updated>
+2012-04-20T00:09:31Z
+        </updated>
+
+        <link
+            href="http://children.webmd.com/news/20120419/background-tv-may-harm-young-kids-development?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/children_and_background_tv/69x75_children_and_background_tv.jpg" style="border:0" alt="boy sitting in front of tv">&lt;p>We all do it at least occasionally. We leave the TV on as background noise when no one is really watching. No problem, right? Wrong, according to a new study, if there are young children in the house.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334877828477"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/2e4e72ad11e4ddb4
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Video Game May Help Treat Teen Depression
+        </title>
+
+        <published>
+2012-04-19T23:36:07Z
+        </published>
+
+        <updated>
+2012-04-19T23:36:07Z
+        </updated>
+
+        <link
+            href="http://teens.webmd.com/news/20120419/video-game-may-help-treat-teen-depression?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/computer_therapy_teen_depression/69x75_computer_therapy_teen_depression.jpg" style="border:0" alt="laptop and mouse">&lt;p>A video game that teaches teens to shoot down and label negative thoughts may relieve depression as least as well as more traditional talk therapy, a new study shows.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334877828476"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/f3e236d8d6a30b5c
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+U.S. Measles Cases, Outbreaks Quadruple in 2011
+        </title>
+
+        <published>
+2012-04-19T22:55:25Z
+        </published>
+
+        <updated>
+2012-04-19T22:55:25Z
+        </updated>
+
+        <link
+            href="http://children.webmd.com/vaccines/news/20120419/us-measles-cases-outbreaks-quadruple-in-2011?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/cdc_measles_report/69x75_cdc_measles_report.jpg" style="border:0" alt="woman with fever">&lt;p>CDC: Measles cases are spiking sharply, largely due to unvaccinated children. 2011 saw 222 cases and 17 outbreaks -- about 4 times the median annual 60 cases and four outbreaks over the last decade.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334874268113"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/b53b7de325bbc93d
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Low-Fat Dairy May Help Lower Stroke Risk
+        </title>
+
+        <published>
+2012-04-19T22:32:17Z
+        </published>
+
+        <updated>
+2012-04-19T22:32:17Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/stroke/news/20120419/low-fat-dairy-may-help-reduce-stroke-risk?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/low_fat_dairy_reduces_stroke/69x75_low_fat_dairy_reduces_stroke.jpg" style="border:0" alt="pouring milk">&lt;p>Middle-aged and older adults may be able to lower their risk of having a stroke by eating low-fat dairy products, according to a Swedish study.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334863738085"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/114f7fca59c373c3
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+HPV Cancer Hits 8,000 Men, 18,000 Women a Year
+        </title>
+
+        <published>
+2012-04-19T19:38:04Z
+        </published>
+
+        <updated>
+2012-04-19T19:38:04Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/cancer/news/20120419/hpv-cancer-hits-8000-men-18000-women-a-year?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/hpv_associated_cancers/69x75_hpv_associated_cancers.jpg" style="border:0" alt="human papillomavirus">&lt;p>CDC: HPV causes 8,000 cancers in men and 18,000 cancers in women each year. In women the most common HPV cancer is cervical cancer; in men it's mouth/throat cancer. Teen vaccination can prevent these cancers.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334795117876"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/d14f918798a2317d
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Breast Cancer Study Could Change Treatment
+        </title>
+
+        <published>
+2012-04-18T23:51:25Z
+        </published>
+
+        <updated>
+2012-04-18T23:51:25Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/cancer/news/20120418/breast-cancer-study-could-change-treatment?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/breast_cancer_reclassified/69x75_breast_cancer_reclassified.jpg" style="border:0" alt="woman wearing pink ribbon">&lt;p>Doctors might one day be able to predict survival more accurately in women with breast cancer after reclassifying the disease into 10 new categories based on the genetic fingerprint of a tumor.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334784147767"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/c88fc2439f094986
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Is There Proof Gum Disease Causes Heart Disease?
+        </title>
+
+        <published>
+2012-04-18T21:26:23Z
+        </published>
+
+        <updated>
+2012-04-18T21:26:23Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/oral-health/news/20120418/no-proof-gum-disease-causes-heart-disease-aha?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/gum_and_heart_disease/69x75_gum_and_heart_disease.jpg" style="border:0" alt="mouth and dental instruments">&lt;p>Contrary to what had been "accepted" thinking by many, there is no conclusive evidence that gum disease causes heart attacks and strokes, or that treating gum disease will improve heart disease, according to a new scientific statement from by the American Heart Association.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334784147766"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/3467947fff22a41d
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Any Exercise May Cut Alzheimer's Risk at Any Age
+        </title>
+
+        <published>
+2012-04-18T21:00:16Z
+        </published>
+
+        <updated>
+2012-04-18T21:00:16Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/alzheimers/news/20120418/any-exercise-may-cut-alzheimers-risk-at-any-age?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/daily_exercise_reduces_alzheimers/69x75_daily_exercise_reduces_alzheimers.jpg" style="border:0" alt="elderly woman">&lt;p>A new study shows that daily physical activity may reduce the risk of Alzheimer's disease and mental decline even in people older than 80.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334770307945"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/8c576cf61bfc134d
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Do Happy People Have Healthier Hearts?
+        </title>
+
+        <published>
+2012-04-18T17:50:50Z
+        </published>
+
+        <updated>
+2012-04-18T17:50:50Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/heart-disease/news/20120418/happy-people-healthier-hearts?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/positive_feelings_protect_heart/69x75_positive_feelings_protect_heart.jpg" style="border:0" alt="woman looking up">&lt;p>Having a "glass half-full" outlook just might help protect people at risk for heart attack and stroke.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+    <entry
+        gr:crawl-timestamp-msec="1334696987749"
+        gr:is-read-state-locked="true" >
+
+        <id gr:original-id="" >
+tag:google.com,2005:reader/item/27c754d81f8188eb
+        </id>
+
+        <category
+            label="read"
+            scheme="http://www.google.com/reader/"
+            term="user/07126809492836610140/state/com.google/read" />
+
+        <title type="html" >
+Male Hormone May Help Heart Failure Patients
+        </title>
+
+        <published>
+2012-04-17T21:05:46Z
+        </published>
+
+        <updated>
+2012-04-17T21:05:46Z
+        </updated>
+
+        <link
+            href="http://www.webmd.com/heart-disease/heart-failure/news/20120417/male-hormone-may-help-heart-failure-patients?src=RSS_PUBLIC"
+            rel="alternate"
+            type="text/html" />
+
+        <content
+            type="html"
+            xml:base="http://www.webmd.com/" >
+&lt;img src="http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/news/2012/04_2012/testosterone_helps_heart_patients/69x75_testosterone_helps_heart_patients.jpg" style="border:0" alt="human heart">&lt;p>Treatment with testosterone may help heart failure patients feel better and exercise more, preliminary research shows.&lt;/p>
+        </content>
+
+        <author gr:unknown-author="true" >
+
+            <name>
+(author unknown)
+            </name>
+        </author>
+
+        <source gr:stream-id="feed/http://rssfeeds.webmd.com/rss/rss.aspx" >
+
+            <id>
+tag:google.com,2005:reader/feed/http://rssfeeds.webmd.com/rss/rss.aspx
+            </id>
+
+            <title type="html" >
+WebMD Health
+            </title>
+
+            <link
+                href="http://www.webmd.com/"
+                rel="alternate"
+                type="text/html" />
+        </source>
+    </entry>
+
+</feed>
